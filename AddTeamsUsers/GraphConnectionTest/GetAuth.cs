@@ -3,29 +3,19 @@ using Microsoft.Graph.Auth;
 using Microsoft.Identity.Client;
 
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Threading.Tasks;
 
 
 
-namespace AuthProvider
+namespace GraphConnectionTest
 {
     public static class GetAuth { 
-    
 
-        public static string Secret1 { get; set; }
-        public static string Secret2 { get; set; }
-
-        public static string GetMySecret()
-    {
-        var moviesConfig = Configuration.GetSection("Movies").Get<MovieSettings>();
-        return moviesConfig.ServiceApiKey;
-    }
-
-
-        public static void GetTest()
+        public static List<string> GetTest()
         {
-            ConfigManager.GetAllData();
+            return ConfigManager.GetAllData();
         }
 
         public static void DoAuth()
