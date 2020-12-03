@@ -11,12 +11,11 @@ namespace GraphConnectionTest
 
             foreach (var value in myList)
             {
-                Console.WriteLine(value); ;
-
+                Console.WriteLine(value);
             }
         }
 
-        static void Main(string[] args)
+        static void Main()
         {
             //AppConfigTest();
 
