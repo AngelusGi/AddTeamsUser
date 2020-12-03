@@ -84,7 +84,8 @@ namespace UwpClient
             switch (invokedItem.ToLower())
             {
                 case "calendar":
-                    throw new NotImplementedException();
+                    //throw new NotImplementedException();
+                    RootFrame.Navigate(typeof(CalendarPage));
                     break;
                 case "home":
                 default:

@@ -13,6 +13,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.Toolkit.Graph.Providers;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using Newtonsoft.Json;
 
 // Il modello di elemento Pagina vuota è documentato all'indirizzo https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -26,6 +29,42 @@ namespace UwpClient
         public CalendarPage()
         {
             this.InitializeComponent();
+        }
+
+        private void ShowNotification(string message)
+        {
+            // Get the main page that contains the InAppNotification
+            var mainPage = (Window.Current.Content as Frame).Content as MainPage;
+
+            // Get the notification control
+            var notification = mainPage.FindName("Notification") as InAppNotification;
+
+            notification.Show(message);
+        }
+
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            // Get the Graph client from the provider
+            var graphClient = ProviderManager.Instance.GlobalProvider.Graph;
+
+            try
+            {
+                // Get the events
+                var events = await graphClient.Me.Events.Request()
+                    .Select("subject,organizer,start,end")
+                    .OrderBy("createdDateTime DESC")
+                    .GetAsync();
+
+                // TEMPORARY: Show the results as JSON
+                //Events.Text = JsonConvert.SerializeObject(events.CurrentPage);
+                EventList.ItemsSource = events.CurrentPage.ToList();
+            }
+            catch (Microsoft.Graph.ServiceException ex)
+            {
+                ShowNotification($"Exception getting events: {ex.Message}");
+            }
+
+            base.OnNavigatedTo(e);
         }
     }
 }
