@@ -7,6 +7,7 @@ using Microsoft.Graph;
 using System;
 using System.Diagnostics;
 using System.Collections.Generic;
+using Windows.UI.Popups;
 
 // Il modello di elemento Pagina vuota è documentato all'indirizzo https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -33,32 +34,26 @@ namespace UwpClient
             notification.Show(message);
         }
 
-        //protected override async void OnNavigatedTo(NavigationEventArgs e)
-        //{
-            
-
-        //    base.OnNavigatedTo(e);
-        //}
         private readonly int SameDay = 0;
 
         protected async void SearchButton_Click(object sender, RoutedEventArgs e)
         {
 
             var dateToSearch = GetInsertDate();
-            Debug.WriteLine($"{nameof(dateToSearch)} -> {dateToSearch}");
+            //Debug.WriteLine($"{nameof(dateToSearch)} -> {dateToSearch}");
 
             LoadStatus.IsActive = true;
+
             // Get the Graph client from the provider
             var graphClient = ProviderManager.Instance.GlobalProvider.Graph;
 
             try
             {
-                //IUserEventsCollectionPage events;
 
                 // Get all the events
                 var events = await graphClient.Me.Events.Request()
                     .Header("Prefer", "outlook.timezone=\"W. Europe Standard Time\"")
-                    .Select(value: "subject,attendees,start,end")
+                    //.Select(value: "subject,attendees,start,end")
                     .OrderBy("createdDateTime DESC")
                     .GetAsync();
 
@@ -70,8 +65,8 @@ namespace UwpClient
                     Debug.WriteLine(userDate);
 
                     var foundElements = from result in events.CurrentPage.ToList()
-                                   where Convert.ToDateTime(result.Start.DateTime).Date.CompareTo(Convert.ToDateTime(userDate)) == SameDay
-                                   select result;
+                                        where Convert.ToDateTime(result.Start.DateTime).Date.CompareTo(Convert.ToDateTime(userDate)) == SameDay
+                                        select result;
 
 
                     EventList.ItemsSource = foundElements.ToList();
@@ -84,9 +79,8 @@ namespace UwpClient
 
                 // TEMPORARY: Show the results as JSON
                 //Events.Text = JsonConvert.SerializeObject(events.CurrentPage);
-                //EventList.ItemsSource = events.CurrentPage.ToList();
 
-                Debug.WriteLine(EventList.ToString());
+                //Debug.WriteLine(EventList.ToString());
             }
             catch (Microsoft.Graph.ServiceException ex)
             {
@@ -111,7 +105,8 @@ namespace UwpClient
             {
                 return null;
             }
-            
+
         }
+
     }
 }

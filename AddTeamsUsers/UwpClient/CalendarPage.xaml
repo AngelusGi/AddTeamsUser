@@ -9,10 +9,10 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
+    <Grid Margin="15">
         <Grid.RowDefinitions>
-            <RowDefinition x:Name="Button" Height="80"/>
-            <RowDefinition x:Name="GridResult"/>
+            <RowDefinition x:Name="Button" Height="Auto"/>
+            <RowDefinition x:Name="GridResult" Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -26,40 +26,55 @@
         <!--search section-->
         <Button x:Name="SearchButton" FontSize="18" FontWeight="SemiBold" Content="Search" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Click="SearchButton_Click" Margin="-50,0,0,0"/>
         <muxc:ProgressRing x:Name="LoadStatus" Width="50" Height="50" IsActive="False" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="150,0,0,0"/>
-                           
+
         <!--results view-->
         <controls:DataGrid x:Name="EventList"
                            Margin="15"
                            Grid.Row="1"
+                           Grid.ColumnSpan="3"
+                           VerticalAlignment="Stretch"
+                           HorizontalAlignment="Stretch"
+                           HorizontalScrollBarVisibility="Visible"
+                           VerticalScrollBarVisibility="Visible"
+                           AlternatingRowBackground="LightGray"
+                           AlternatingRowForeground="Black"
+                           AreRowDetailsFrozen="True"
+                           AreRowGroupHeadersFrozen="False"
                            AutoGenerateColumns="False"
-                           Grid.ColumnSpan="3">
+                           CanUserSortColumns="False"
+                           CanUserReorderColumns="False"
+                           CanUserResizeColumns="False"
+                           IsReadOnly="True"
+                           MinColumnWidth="150">
             <controls:DataGrid.Columns>
                 <controls:DataGridTextColumn
                         Header="Organizer"
                         Width="SizeToCells"
-                        Binding="{Binding Organizer.EmailAddress.Name}"
-                        FontSize="20" />
+                        Binding="{Binding Organizer}"
+                        FontSize="20"/>
                 <controls:DataGridTextColumn
-                        Header="Subject"
+                        Header="Event subject"
                         Width="SizeToCells"
                         Binding="{Binding Subject}"
-                        FontSize="20" />
+                        FontSize="20"/>
                 <controls:DataGridTextColumn
-                        Header="Start"
+                        Header="Start date time"
                         Width="SizeToCells"
                         Binding="{Binding Start.DateTime}"
                         FontSize="20" />
                 <controls:DataGridTextColumn
-                        Header="End"
+                        Header="End date time"
                         Width="SizeToCells"
                         Binding="{Binding End.DateTime}"
                         FontSize="20" />
                 <controls:DataGridTextColumn
                         Header="Attendees count"
-                        Width="150"
+                        Width="SizeToCells"
                         Binding="{Binding Attendees.Count}"
                         FontSize="20" />
             </controls:DataGrid.Columns>
         </controls:DataGrid>
+        
+        
     </Grid>
 </Page>

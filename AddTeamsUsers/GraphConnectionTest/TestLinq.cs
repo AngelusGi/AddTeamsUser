@@ -9,7 +9,7 @@ namespace GraphConnectionTest
     class TestLinq
     {
 
-        public static void confronta()
+        public static void ComparsionTest()
         {
             var myTestDate = "2020-11-30T13:30:00.0000000"; // 1
             //var myTestDate = "2020-12-30T13:30:00.0000000"; // -1
@@ -47,7 +47,7 @@ namespace GraphConnectionTest
         }
 
         // Create a data source by using a collection initializer.
-        static List<Student> students = new List<Student>
+        readonly static List<Student> students = new List<Student>
         {
             //new Student {First="Svetlana", Last="Omelchenko", ID=111, Scores= new List<int> {97, 92, 81, 60}, BirthDate = new DateTime(2020,12,07)},
             //new Student {First="Claire", Last="O'Donnell", ID=112, Scores= new List<int> {75, 84, 91, 39}, BirthDate = new DateTime(2020,12,08)},
