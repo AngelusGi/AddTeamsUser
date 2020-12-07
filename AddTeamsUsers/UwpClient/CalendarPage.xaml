@@ -48,11 +48,6 @@
                            MinColumnWidth="150">
             <controls:DataGrid.Columns>
                 <controls:DataGridTextColumn
-                        Header="Organizer"
-                        Width="SizeToCells"
-                        Binding="{Binding Organizer}"
-                        FontSize="20"/>
-                <controls:DataGridTextColumn
                         Header="Event subject"
                         Width="SizeToCells"
                         Binding="{Binding Subject}"

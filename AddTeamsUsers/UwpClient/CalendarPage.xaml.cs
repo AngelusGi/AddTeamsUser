@@ -34,7 +34,6 @@ namespace UwpClient
             notification.Show(message);
         }
 
-        private readonly int SameDay = 0;
 
         protected async void SearchButton_Click(object sender, RoutedEventArgs e)
         {
@@ -57,24 +56,33 @@ namespace UwpClient
                     .OrderBy("createdDateTime DESC")
                     .GetAsync();
 
+                var today = $"{DateTime.Now.Date:s}";
+
+                var aboutMe = await graphClient.Me.Request().GetAsync();
+
+                var eventsByMe = from result in events.CurrentPage.ToList()
+                                 let organizedByMe = ((result.Organizer.EmailAddress.Address == aboutMe.UserPrincipalName) || (result.Organizer.EmailAddress.Address == aboutMe.Mail))
+                                 let noPastEvents = Convert.ToDateTime(result.Start.DateTime).Date.CompareTo(Convert.ToDateTime(today)) >= 0 // Today or future events
+                                 where organizedByMe && noPastEvents
+                                 select result;
+
                 if (dateToSearch.HasValue)
                 {
-
                     var userDate = $"{dateToSearch:s}";
 
                     Debug.WriteLine(userDate);
 
-                    var foundElements = from result in events.CurrentPage.ToList()
-                                        where Convert.ToDateTime(result.Start.DateTime).Date.CompareTo(Convert.ToDateTime(userDate)) == SameDay
+                    var foundElements = from result in eventsByMe.ToList()
+                                        let searchedDay = Convert.ToDateTime(result.Start.DateTime).Date.CompareTo(Convert.ToDateTime(userDate)) == 0 // Same day
+                                        where searchedDay
                                         select result;
-
 
                     EventList.ItemsSource = foundElements.ToList();
 
                 }
                 else
                 {
-                    EventList.ItemsSource = events.CurrentPage.ToList();
+                    EventList.ItemsSource = eventsByMe.ToList();
                 }
 
                 // TEMPORARY: Show the results as JSON
