@@ -32,10 +32,10 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="UwpClient.App">
       <uap:VisualElements
-        DisplayName="UwpClient"
+        DisplayName="Add users to Teams"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="UwpClient"
+        Description="UWP client to add bulk users to Teams events"
         BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />

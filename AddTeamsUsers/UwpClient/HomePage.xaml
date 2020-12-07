@@ -10,8 +10,16 @@
 
     <Grid>
         <StackPanel>
-            <TextBlock FontSize="44" FontWeight="Bold" Margin="0, 12">Microsoft Graph UWP Tutorial</TextBlock>
-            <TextBlock x:Name="HomePageMessage">Please sign in to continue.</TextBlock>
+            <TextBlock FontSize="44" FontWeight="Bold" Margin="0, 12">Bulk user add to a Teams Meeting</TextBlock>
+
+            <TextBlock x:Name="LoginStatus" Margin="0,10" Foreground="Red" FontWeight="SemiBold" FontSize="18">Please sign in to continue!</TextBlock>
+            
+            <TextBlock x:Name="HomePageFirstMessage">1. Please sign in to continue.</TextBlock>
+            <TextBlock x:Name="HomePageSecondMessage">2. Please go to the calendar view and serach the event.</TextBlock>
+            <TextBlock x:Name="HomePageThirdMessage">3. Please go to the file section and upload the file with the list.</TextBlock>
+            <TextBlock x:Name="HomePageFourthMessage">4. TODO.</TextBlock>
+
+            <Image Source="Assets/1024px-Octicons-mark-github.png" Width="100" Height="100" Margin="20"/>
         </StackPanel>
     </Grid>
 </Page>

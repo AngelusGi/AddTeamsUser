@@ -1,21 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using Microsoft.Toolkit.Graph.Providers;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Newtonsoft.Json;
+using Microsoft.Graph;
+using System;
+using System.Diagnostics;
+using System.Collections.Generic;
 
 // Il modello di elemento Pagina vuota è documentato all'indirizzo https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -42,29 +33,85 @@ namespace UwpClient
             notification.Show(message);
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        //protected override async void OnNavigatedTo(NavigationEventArgs e)
+        //{
+            
+
+        //    base.OnNavigatedTo(e);
+        //}
+        private readonly int SameDay = 0;
+
+        protected async void SearchButton_Click(object sender, RoutedEventArgs e)
         {
+
+            var dateToSearch = GetInsertDate();
+            Debug.WriteLine($"{nameof(dateToSearch)} -> {dateToSearch}");
+
+            LoadStatus.IsActive = true;
             // Get the Graph client from the provider
             var graphClient = ProviderManager.Instance.GlobalProvider.Graph;
 
             try
             {
-                // Get the events
+                //IUserEventsCollectionPage events;
+
+                // Get all the events
                 var events = await graphClient.Me.Events.Request()
-                    .Select("subject,organizer,start,end")
+                    .Header("Prefer", "outlook.timezone=\"W. Europe Standard Time\"")
+                    .Select(value: "subject,attendees,start,end")
                     .OrderBy("createdDateTime DESC")
                     .GetAsync();
 
+                if (dateToSearch.HasValue)
+                {
+
+                    var userDate = $"{dateToSearch:s}";
+
+                    Debug.WriteLine(userDate);
+
+                    var foundElements = from result in events.CurrentPage.ToList()
+                                   where Convert.ToDateTime(result.Start.DateTime).Date.CompareTo(Convert.ToDateTime(userDate)) == SameDay
+                                   select result;
+
+
+                    EventList.ItemsSource = foundElements.ToList();
+
+                }
+                else
+                {
+                    EventList.ItemsSource = events.CurrentPage.ToList();
+                }
+
                 // TEMPORARY: Show the results as JSON
                 //Events.Text = JsonConvert.SerializeObject(events.CurrentPage);
-                EventList.ItemsSource = events.CurrentPage.ToList();
+                //EventList.ItemsSource = events.CurrentPage.ToList();
+
+                Debug.WriteLine(EventList.ToString());
             }
             catch (Microsoft.Graph.ServiceException ex)
             {
                 ShowNotification($"Exception getting events: {ex.Message}");
             }
+            finally
+            {
+                LoadStatus.IsActive = false;
+            }
 
-            base.OnNavigatedTo(e);
+        }
+
+        private DateTime? GetInsertDate()
+        {
+
+            //return DayToSearch.Date.HasValue ? DayToSearch.Date.Value.Date : null;
+            if (DayToSearch.Date.HasValue)
+            {
+                return DayToSearch.Date.Value.Date;
+            }
+            else
+            {
+                return null;
+            }
+            
         }
     }
 }

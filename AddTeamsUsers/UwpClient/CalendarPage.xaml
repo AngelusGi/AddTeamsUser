@@ -5,14 +5,34 @@
     xmlns:local="using:UwpClient"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:muxc="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition x:Name="Button" Height="80"/>
+            <RowDefinition x:Name="GridResult"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <!--data insert-->
+        <CalendarDatePicker x:Name="DayToSearch" PlaceholderText="Pick a date" Header="Select the day of the event" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" />
+
+        <!--search section-->
+        <Button x:Name="SearchButton" FontSize="18" FontWeight="SemiBold" Content="Search" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Click="SearchButton_Click" Margin="-50,0,0,0"/>
+        <muxc:ProgressRing x:Name="LoadStatus" Width="50" Height="50" IsActive="False" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="150,0,0,0"/>
+                           
+        <!--results view-->
         <controls:DataGrid x:Name="EventList"
+                           Margin="15"
                            Grid.Row="1"
-                           AutoGenerateColumns="False">
+                           AutoGenerateColumns="False"
+                           Grid.ColumnSpan="3">
             <controls:DataGrid.Columns>
                 <controls:DataGridTextColumn
                         Header="Organizer"
@@ -33,6 +53,11 @@
                         Header="End"
                         Width="SizeToCells"
                         Binding="{Binding End.DateTime}"
+                        FontSize="20" />
+                <controls:DataGridTextColumn
+                        Header="Attendees count"
+                        Width="150"
+                        Binding="{Binding Attendees.Count}"
                         FontSize="20" />
             </controls:DataGrid.Columns>
         </controls:DataGrid>

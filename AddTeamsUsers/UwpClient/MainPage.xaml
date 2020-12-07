@@ -30,12 +30,17 @@
             <NavigationView.MenuItems>
                 <NavigationViewItem Content="Home" x:Name="Home" Tag="home">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph=""/>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE10F;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem Content="Calendar" x:Name="Calendar" Tag="calendar">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph=""/>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE163;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="File reader" x:Name="FileManager" Tag="file">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8E5;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>

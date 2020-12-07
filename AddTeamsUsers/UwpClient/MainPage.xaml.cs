@@ -29,16 +29,7 @@ namespace UwpClient
         public MainPage()
         {
             this.InitializeComponent();
-            //// Initialize auth state to false
-            //SetAuthState(false);
-
-            //// Configure MSAL provider
-            //// TEMPORARY
-            //MsalProvider.ClientId = "11111111-1111-1111-1111-111111111111";
-
-            //// Navigate to HomePage.xaml
-            //RootFrame.Navigate(typeof(HomePage));
-
+            
             // Load OAuth settings
             var oauthSettings = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView("OAuth");
             var appId = oauthSettings.GetString("AppId");
@@ -86,6 +77,10 @@ namespace UwpClient
                 case "calendar":
                     //throw new NotImplementedException();
                     RootFrame.Navigate(typeof(CalendarPage));
+                    break;
+                case "file":
+                    throw new NotImplementedException();
+                    //RootFrame.Navigate(typeof());
                     break;
                 case "home":
                 default:

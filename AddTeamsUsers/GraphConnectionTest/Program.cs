@@ -19,7 +19,12 @@ namespace GraphConnectionTest
         {
             //AppConfigTest();
 
-            GetAuth.DoAuth();
+            //GetAuth.DoAuth();
+
+            //TestLinq.confronta();
+
+            TestLinq.SearchStudent();
+
         }
 
     }

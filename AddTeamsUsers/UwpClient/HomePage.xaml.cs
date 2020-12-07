@@ -30,7 +30,7 @@ namespace UwpClient
 
             if ((App.Current as App).IsAuthenticated)
             {
-                HomePageMessage.Text = "Welcome! Please use the menu to the left to select a view.";
+                LoginStatus.Text = "Please read carefully the instructions below and use the menu to the left to select a view.";
             }
         }
     }
